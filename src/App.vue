@@ -1,7 +1,7 @@
 <template>
   <img alt="Vue logo" src="./assets/logo.png">
 
-  <Counter title="Entradas"  v-bind:start="1" />
+  <Counter title="Entradas"  v-bind:start="5" />
   
   <Counter/>
 

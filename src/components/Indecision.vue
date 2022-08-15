@@ -1,7 +1,7 @@
 <template>
 
     <h1>Indecision</h1>
-    <img v-if="img"  :src="img" alt="bg" />
+    <img v-if="img" :src="img" alt="bg" />
     <div class="bg-dark"></div>
     <div class="indecision-container">
         <input type="text" placehoder="hazme una pregunta" v-model="question" />
@@ -9,7 +9,8 @@
 
         <div v-if="isValidQuestion">
             <h2>{{ question }}</h2>
-            <h1>{{ answer === 'Yes'? "Si!":"NO!" }}</h1>
+            <!-- <h1>{{ answer === 'Yes'? "Si!":"NO!" }}</h1> -->
+            <h1>{{ answer }}</h1>
         </div>
     </div>
 </template>
@@ -29,26 +30,38 @@ export default {
     },
     methods: {
         async getAnswer() {
-            this.answer = 'Pensando...'
 
-            const {answer, image} = await fetch('https://yesno.wtf/api').then(r => r.json())
-            console.log(answer, image)
+            try {
+
+                this.answer = 'Pensando...'
+
+                const { answer, image } = await fetch('https://yesno.wtf/api').then(r => r.json())
+                console.log(answer, image)
 
 
-            this.answer = answer
-            this.img = image
+                this.answer = answer === 'yes' ? 'Si!' : 'No!'
+                this.img = image
+
+            } catch (error) {
+                console.log('IndecisionComponent: ', error )
+                this.answer = 'No se pudo cargar del API'
+                this.img = null
+            }
+
         }
     },
     watch: {
         question(value, oldValue) {
-            
-            this.isValidQuestion = false 
+
+            this.isValidQuestion = false
+
+            console.log({ value })
 
             if (!value.includes('?')) return
 
             // TODO Realizar la petición http
             this.getAnswer()
-            this.isValidQuestion = true 
+            this.isValidQuestion = true
         }
     }
 }

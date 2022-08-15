@@ -2,9 +2,13 @@
     <h2>{{ customTitle }}</h2>
     <p> {{ counter }} <sup>2</sup> = {{ squareCounter }} </p>
 
-    <div>
-        <button v-on:click="decrease">-1</button>
-        <button v-on:click="increase">+1</button>
+    <!-- data-testid es un id de datos específico para las pruebas 
+    NO BORRAR -->
+    <p data-testid="counter">{{ counter }}</p>
+    
+    <div class="buttons-container">
+        <button @click="increase">+1</button>
+        <button @click="decrease">-1</button>
     </div>
 </template>
 
